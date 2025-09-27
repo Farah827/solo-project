@@ -27,8 +27,13 @@ KiddyBank is inspired by the **Powerpuff Girls**, making financial learning **fu
 
 ## Screenshots
 
-Add screenshots of your app to showcase your adorable interface:
+![Uploading Screenshot 2025-09-28 at 2.44.21 AM.png…]()
 
+![Uploading Screenshot 2025-09-28 at 2.45.14 AM.png…]()
+
+![Uploading Screenshot 2025-09-28 at 2.46.11 AM.png…]()
+
+![Uploading Screenshot 2025-09-28 at 2.46.52 AM.png…]()
 
 
 ## 🚀 Getting Started  
@@ -63,5 +68,9 @@ Add screenshots of your app to showcase your adorable interface:
 
 
 
+6.Run migrations
+  ```bash
+      python manage.py makemigrations
+      python manage.py migrate
 
 
