@@ -27,13 +27,11 @@ KiddyBank is inspired by the **Powerpuff Girls**, making financial learning **fu
 
 ## Screenshots
 
-![Uploading Screenshot 2025-09-28 at 2.44.21 AM.png…]()
+![Dashboard](https://github.com/Farah827/solo-project/blob/main/screenshots/Screenshot%202025-09-28%20at%202.44.21%20AM.png)
+![Goals](https://github.com/Farah827/solo-project/blob/main/screenshots/Screenshot%202025-09-28%20at%202.45.14%20AM.png)
+![Rewards](https://github.com/Farah827/solo-project/blob/main/screenshots/Screenshot%202025-09-28%20at%202.46.11%20AM.png)
+![Transactions](https://github.com/Farah827/solo-project/blob/main/screenshots/Screenshot%202025-09-28%20at%202.46.52%20AM.png)
 
-![Uploading Screenshot 2025-09-28 at 2.45.14 AM.png…]()
-
-![Uploading Screenshot 2025-09-28 at 2.46.11 AM.png…]()
-
-![Uploading Screenshot 2025-09-28 at 2.46.52 AM.png…]()
 
 
 ## 🚀 Getting Started  
