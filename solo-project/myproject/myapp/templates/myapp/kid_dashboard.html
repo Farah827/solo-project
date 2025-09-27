@@ -66,7 +66,7 @@ input, select { border-radius:12px; padding:8px 12px; border:1px solid #ccc; mar
 }
 .navbar-brand {
     font-size: 1.5rem;
-    color: #fff !important;   /* 👈 force white text */
+    color: #fff !important;   
     display: flex;
     align-items: center;
 }
@@ -74,8 +74,7 @@ input, select { border-radius:12px; padding:8px 12px; border:1px solid #ccc; mar
 </head>
 <body>
 
-<!-- Navbar -->
-<!-- Navbar -->
+
 <nav class="navbar shadow-sm">
   <span class="navbar-brand d-flex align-items-center">
     <img src="https://img.icons8.com/doodle/512/bubbles-powerpuff-girls.png" 
@@ -94,7 +93,7 @@ input, select { border-radius:12px; padding:8px 12px; border:1px solid #ccc; mar
 
 <div class="container py-5">
 
-  <!-- Balance Card -->
+
   <div class="dashboard-card">
     <div class="avatar">
       <img src="https://img.icons8.com/doodle/512/bubbles-powerpuff-girls.png" alt="profile" class="avatar-pic">
@@ -115,7 +114,7 @@ input, select { border-radius:12px; padding:8px 12px; border:1px solid #ccc; mar
       <button type="submit" class="btn-cute"><i class="fa fa-paper-plane"></i> Go</button>
     </form>
 
-    <!-- Links -->
+   
     <div class="button-column">
       <a href="{% url 'kid_goals' %}" class="btn-cute"><i class="fa fa-bullseye"></i> Goals</a>
       <a href="{% url 'kid_transactions' %}" class="btn-cute"><i class="fa fa-list"></i> Transactions</a>
@@ -125,7 +124,7 @@ input, select { border-radius:12px; padding:8px 12px; border:1px solid #ccc; mar
 
 </div>
 
-<!-- Unified AJAX Script -->
+
 <script>
 function getCookie(name) {
     let cookieValue = null;
@@ -142,9 +141,7 @@ function getCookie(name) {
 
 const csrftoken = getCookie('csrftoken');
 
-/**
- * Update balance and remaining allowance display
- */
+
 function updateBalance(newBalance, newAllowance) {
     const balanceEl = document.getElementById("balance");
     const allowanceEl = document.getElementById("allowance");
@@ -152,9 +149,7 @@ function updateBalance(newBalance, newAllowance) {
     if(allowanceEl) allowanceEl.innerText = "$" + parseFloat(newAllowance).toFixed(2);
 }
 
-/**
- * Display a message in a target element
- */
+
 function showMessage(el, message, type) {
     el.innerText = message;
     el.className = "";
@@ -163,20 +158,16 @@ function showMessage(el, message, type) {
     else if(type === "warning") el.classList.add("text-warning");
 }
 
-/**
- * Handle Goal Achieved Animation
- */
+
 function triggerGoalAnimation(goalId) {
     const card = document.getElementById(`goal-${goalId}`);
     if(!card) return;
 
     card.classList.add("completed");
 
-    // Remove form if exists
     const form = card.querySelector("form.goal-contribution-form");
     if(form) form.remove();
 
-    // Remove message element if exists
     const msgEl = document.getElementById(`goal-msg-${goalId}`);
     if(msgEl) msgEl.remove();
 
@@ -199,7 +190,7 @@ function triggerGoalAnimation(goalId) {
 }
 
 /**
- * AJAX Handler for any transaction form
+ * AJAX Handler for transaction form
  */
 function handleTransactionForm(formSelector, messageSelector) {
     document.querySelectorAll(formSelector).forEach(form => {
@@ -218,13 +209,10 @@ function handleTransactionForm(formSelector, messageSelector) {
             .then(res => res.json())
             .then(data => {
                 if(data.success){
-                    // Update balance & allowance
                     updateBalance(data.new_balance, data.remaining_allowance);
 
-                    // Show message
                     showMessage(msgEl, "✅ " + data.message, "success");
 
-                    // If goal contribution, update goal progress and saved amount
                     if(data.goal_progress !== undefined && data.goal_saved !== undefined && goalId){
                         const progressBar = document.querySelector(`#goal-${goalId} .progress-bar`);
                         const savedText = document.querySelector(`#goal-${goalId} p`);
@@ -233,7 +221,6 @@ function handleTransactionForm(formSelector, messageSelector) {
                         if(progressBar) progressBar.innerText = data.goal_progress + "%";
                         if(savedText) savedText.innerText = `Saved: $${data.goal_saved} / ${savedText.innerText.split("/")[1].trim()}`;
 
-                        // Trigger animation if goal achieved
                         if(data.goal_progress >= 100){
                             triggerGoalAnimation(goalId);
                         }
@@ -251,13 +238,10 @@ function handleTransactionForm(formSelector, messageSelector) {
     });
 }
 
-// Initialize AJAX for dashboard
 handleTransactionForm("#transactionForm", "transactionMessage");
 
-// Initialize AJAX for goals
 handleTransactionForm(".goal-contribution-form", "goal-msg-{id}");
 
-// Trigger stars animation for already completed goals
 document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".goal-card.completed").forEach(card => {
         let container = card.querySelector(".stars-container");
