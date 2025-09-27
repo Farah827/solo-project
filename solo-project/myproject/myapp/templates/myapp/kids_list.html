@@ -1,0 +1,31 @@
+{% for kid in kids %}
+<div class="col-md-4" data-kid-id="{{ kid.id }}">
+  <div class="kid-card">
+    <div class="kid-avatar">👦</div>
+    <p class="kid-name">{{ kid.user_name }}</p>
+    <p class="text-muted">{{ kid.email }}</p>
+    <p><strong>Balance:</strong> ${{ kid.get_balance }}</p>
+    <p class="allowance-text"><strong>Allowance:</strong> ${{ kid.remaining_allowance }}</p>
+
+    <div class="d-flex flex-wrap justify-content-center mb-2">
+      <a href="{% url 'parent_kid_goals' kid.id %}" class="btn-cute"><i class="fa fa-bullseye"></i> Goals</a>
+      <a href="{% url 'parent_kid_transactions' kid.id %}" class="btn-cute"><i class="fa fa-list"></i> Transactions</a>
+      <a href="{% url 'parent_kid_rewards' kid.id %}" class="btn-cute"><i class="fa fa-gift"></i> Rewards</a>
+
+      <form method="POST" action="{% url 'remove_kid' kid.id %}" class="remove-kid-form">
+        {% csrf_token %}
+        <button type="submit" class="btn-cute"><i class="fa fa-trash"></i> Remove</button>
+      </form>
+    </div>
+
+    <form method="POST" action="{% url 'set_allowance' kid.id %}" class="allowance-form">
+      {% csrf_token %}
+      <input type="number" step="0.01" name="allowance" value="{{ kid.remaining_allowance }}" required>
+      <button type="submit" class="btn-cute"><i class="fa fa-coins"></i> Update</button>
+    </form>
+  </div>
+</div>
+{% empty %}
+<p class="text-center text-muted">No kids added yet. Add one below ⬇️</p>
+{% endfor %}
+

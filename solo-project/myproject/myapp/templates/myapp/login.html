@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bank for Kids - Login</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+body {
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  background: linear-gradient(135deg, #aee1f9 0%, #ffd6e0 100%);
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+/* Static bubbles background */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: url("https://www.pikpng.com/pngl/m/286-2861409_aesthetic-bubbles-powerpuff-girls-transparent-png-powerpuff-girls.png") repeat;
+  background-size: 200px;
+  opacity: 0.08;
+  z-index: -1;
+}
+
+/* Navbar */
+.navbar {
+  background-color: #fdc1cc;
+  border-radius: 15px;
+  margin: 10px;
+  padding: 10px 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.navbar-brand {
+  font-size: 1.5rem;
+  color: #fff;
+  font-weight: bold;
+}
+.profile-pic {
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;  
+  object-fit: cover;
+  margin-right: 8px;
+  border: 2px solid #fff;
+}
+
+/* Login Card */
+.login-card {
+  background: #fff3f8;
+  border-radius: 25px;
+  padding: 40px 30px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  text-align: center;
+  margin: 40px auto;
+}
+.login-card img {
+  width: 90px;
+  margin-bottom: 15px;
+}
+.login-card h3 {
+  margin-bottom: 15px;
+  font-weight: bold;
+  color: #ff5c8a;
+}
+.login-card p.small {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+/* Inputs */
+.login-card input {
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  padding: 12px;
+  width: 100%;
+  margin-bottom: 15px;
+  font-size: 1rem;
+  text-align: center;
+}
+
+/* Buttons */
+.btn-cute {
+  background-color: #FFB6C1;
+  color: #fff;
+  border-radius: 25px;
+  font-weight: bold;
+  border: none;
+  padding: 12px 20px;
+  width: 100%;
+  margin-bottom: 10px;
+}
+.btn-cute:hover {
+  background-color: #FF69B4;
+}
+.forgot-password {
+  font-size: 0.85rem;
+  color: #ff5c8a;
+  background: none;
+  border: none;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+.forgot-password:hover {
+  text-decoration: underline;
+}
+
+/* Footer */
+.footer {
+  font-size: 0.8rem;
+  color: #888;
+  margin-top: 15px;
+}
+
+/* Cute error message */
+.error-msg {
+  background-color: #ffccd5; 
+  color: #b3003b; 
+  border-radius: 12px; 
+  padding: 8px 12px; 
+  font-size: 0.9rem; 
+  margin-bottom: 10px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar shadow-sm">
+    <span class="navbar-brand d-flex align-items-center">
+      <img src="https://img.icons8.com/doodle/512/bubbles-powerpuff-girls.png" 
+           alt="avatar" 
+           class="profile-pic">
+      Kiddo Bank
+    </span>
+    <div>
+      <a href="{% url 'home' %}" class="btn-cute"><i class="fa fa-home"></i> Home</a>
+      <a href="{% url 'register' %}" class="btn-cute"><i class="fa fa-user-plus"></i> Sign Up</a>
+    </div>
+  </nav>
+
+  <!-- Login Card -->
+  <div class="login-card">
+    <img src="https://img.icons8.com/doodle/512/bubbles-powerpuff-girls.png" alt="Avatar">
+    <h3>Welcome Back!</h3>
+    <p class="small">Parents use your email, kids use your username 💖</p>
+
+    <!-- Cute error messages -->
+    {% if messages %}
+      <div>
+        {% for message in messages %}
+          <div class="error-msg">
+            ❌ {{ message }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <form action="{% url 'login' %}" method="POST">
+      {% csrf_token %}
+      <input type="text" name="email" placeholder="Email or Username" required value="{{ request.POST.email|default:'' }}">
+      <input type="password" name="password" placeholder="Password" required>
+      <button type="submit" class="btn-cute"><i class="fa fa-sign-in-alt"></i> Log In</button>
+    </form>
+
+    <button class="forgot-password" type="button">Forgot password?</button>
+
+    <div class="footer">
+      © 2025 Kiddo Bank. All Rights Reserved.
+    </div>
+  </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+

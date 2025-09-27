@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kid Dashboard</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+<style>
+body {
+     font-family: 'Comic Sans MS', cursive, sans-serif; 
+     background: linear-gradient(135deg, #aee1f9 0%, #ffd6e0 100%); 
+     margin:0; 
+     padding:0; 
+     overflow-x:hidden; 
+     overflow-y:auto; 
+    }
+body::before { 
+    content: ""; 
+    position: fixed; 
+    top:0; 
+    left:0; 
+    width:100%; 
+    height:100%; 
+    background:url("https://www.pikpng.com/pngl/m/286-2861409_aesthetic-bubbles-powerpuff-girls-transparent-png-powerpuff-girls.png") repeat; 
+    background-size:200px; 
+    opacity:0.08; 
+    z-index:-1; 
+}
+.navbar { background-color: #fdc1cc; border-radius:15px; margin:10px; padding:10px 20px; box-shadow:0 4px 10px rgba(0,0,0,0.1); display:flex; justify-content:space-between; align-items:center; }
+.profile-pic { height:70px; width:70px; border-radius:50%; object-fit:cover; margin-right:8px; border:2px solid #fff; animation:bounce 3s infinite ease-in-out; }
+@keyframes bounce { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-8px);} }
+.dashboard-card { background:#fff3f8; border-radius:25px; box-shadow:0 8px 20px rgba(0,0,0,0.1); padding:30px 20px; margin:25px auto; max-width:400px; text-align:center; position:relative; z-index:5; }
+.avatar-pic { width:100px; height:100px; border-radius:50%; border:1px solid gray; margin:0 auto 15px auto; object-fit:cover; animation:bounce 3s infinite ease-in-out; }
+.btn-cute {     
+    background: #FF69B4;
+    transform: scale(1.05);
+    color: #fff;
+     border-radius:25px; 
+     font-weight:bold; 
+     border:none; 
+     padding:10px 16px; 
+     margin:6px; 
+     width:180px; 
+     text-align:center; 
+    }
+input, select { border-radius:12px; padding:8px 12px; border:1px solid #ccc; margin:5px 0; width:80%; text-align:center; }
+.button-column { display:flex; flex-direction:column; align-items:center; gap:10px; margin-top:15px; }
+.text-success { color:green; }
+.text-danger { color:red; }
+.text-warning { color:orange; }
+.btn-cute {
+    background: #FFB6C1;
+    border-radius: 25px;
+    font-weight: bold;
+    border: none;
+    padding: 10px 20px;
+    transition: all 0.3s;
+    color: #fff;
+    margin-left: 8px;
+}
+.btn-cute:hover {
+    background: #FF69B4;
+    transform: scale(1.05);
+    color: #fff;
+}
+.navbar-brand {
+    font-size: 1.5rem;
+    color: #fff !important;   /* 👈 force white text */
+    display: flex;
+    align-items: center;
+}
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<!-- Navbar -->
+<nav class="navbar shadow-sm">
+  <span class="navbar-brand d-flex align-items-center">
+    <img src="https://img.icons8.com/doodle/512/bubbles-powerpuff-girls.png" 
+         alt="profile" 
+         class="profile-pic">
+     Hello, {{ kid.user_name }}! 
+  </span>
+  <div>
+    <a href="{% url 'kid_dashboard' %}" class="btn-cute">⬅ Dashboard</a>
+    <a href="{% url 'logout' %}" class="btn-cute">
+      <i class="fa fa-sign-out-alt"></i> Logout
+    </a>
+  </div>
+</nav>
+
+
+<div class="container py-5">
+
+  <!-- Balance Card -->
+  <div class="dashboard-card">
+    <div class="avatar">
+      <img src="https://img.icons8.com/doodle/512/bubbles-powerpuff-girls.png" alt="profile" class="avatar-pic">
+    </div>
+    <h3>💰 Balance</h3>
+    <p>Current savings: <strong id="balance">${{ balance|floatformat:2 }}</strong></p>
+    <p class="text-muted">Remaining allowance: <strong id="allowance">${{ remaining_allowance|floatformat:2 }}</strong></p>
+    <div id="transactionMessage" class="mt-2"></div>
+
+    <!-- Transaction Form -->
+    <form id="transactionForm" method="POST" class="d-flex flex-column gap-2 align-items-center">
+      {% csrf_token %}
+      <input type="number" name="amount" step="0.01" placeholder="Amount" required>
+      <select name="type">
+        <option value="Deposit">Deposit</option>
+        <option value="Withdrawal">Withdraw</option>
+      </select>
+      <button type="submit" class="btn-cute"><i class="fa fa-paper-plane"></i> Go</button>
+    </form>
+
+    <!-- Links -->
+    <div class="button-column">
+      <a href="{% url 'kid_goals' %}" class="btn-cute"><i class="fa fa-bullseye"></i> Goals</a>
+      <a href="{% url 'kid_transactions' %}" class="btn-cute"><i class="fa fa-list"></i> Transactions</a>
+      <a href="{% url 'kid_rewards' %}" class="btn-cute"><i class="fa fa-gift"></i> Rewards</a>
+    </div>
+  </div>
+
+</div>
+
+<!-- Unified AJAX Script -->
+<script>
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        document.cookie.split(';').forEach(cookie => {
+            cookie = cookie.trim();
+            if (cookie.startsWith(name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            }
+        });
+    }
+    return cookieValue;
+}
+
+const csrftoken = getCookie('csrftoken');
+
+/**
+ * Update balance and remaining allowance display
+ */
+function updateBalance(newBalance, newAllowance) {
+    const balanceEl = document.getElementById("balance");
+    const allowanceEl = document.getElementById("allowance");
+    if(balanceEl) balanceEl.innerText = "$" + parseFloat(newBalance).toFixed(2);
+    if(allowanceEl) allowanceEl.innerText = "$" + parseFloat(newAllowance).toFixed(2);
+}
+
+/**
+ * Display a message in a target element
+ */
+function showMessage(el, message, type) {
+    el.innerText = message;
+    el.className = "";
+    if(type === "success") el.classList.add("text-success");
+    else if(type === "error") el.classList.add("text-danger");
+    else if(type === "warning") el.classList.add("text-warning");
+}
+
+/**
+ * Handle Goal Achieved Animation
+ */
+function triggerGoalAnimation(goalId) {
+    const card = document.getElementById(`goal-${goalId}`);
+    if(!card) return;
+
+    card.classList.add("completed");
+
+    // Remove form if exists
+    const form = card.querySelector("form.goal-contribution-form");
+    if(form) form.remove();
+
+    // Remove message element if exists
+    const msgEl = document.getElementById(`goal-msg-${goalId}`);
+    if(msgEl) msgEl.remove();
+
+    // Add stars animation
+    let container = card.querySelector(".stars-container");
+    if(!container){
+        container = document.createElement("div");
+        container.classList.add("stars-container");
+        card.appendChild(container);
+    }
+
+    for(let i=0;i<12;i++){
+        const star = document.createElement("div");
+        star.classList.add("star");
+        star.style.left = Math.random()*80 + "%";
+        star.style.top = Math.random()*60 + "%";
+        star.style.animationDelay = (Math.random()*2) + "s";
+        container.appendChild(star);
+    }
+}
+
+/**
+ * AJAX Handler for any transaction form
+ */
+function handleTransactionForm(formSelector, messageSelector) {
+    document.querySelectorAll(formSelector).forEach(form => {
+        form.addEventListener("submit", function(e){
+            e.preventDefault();
+            const formData = new FormData(this);
+
+            const goalId = this.dataset.goalId; // optional for goals
+            const msgEl = goalId ? document.getElementById(messageSelector.replace("{id}", goalId)) : document.getElementById(messageSelector);
+
+            fetch("{% url 'make_transaction' %}", {
+                method: "POST",
+                headers: { "X-CSRFToken": csrftoken },
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                if(data.success){
+                    // Update balance & allowance
+                    updateBalance(data.new_balance, data.remaining_allowance);
+
+                    // Show message
+                    showMessage(msgEl, "✅ " + data.message, "success");
+
+                    // If goal contribution, update goal progress and saved amount
+                    if(data.goal_progress !== undefined && data.goal_saved !== undefined && goalId){
+                        const progressBar = document.querySelector(`#goal-${goalId} .progress-bar`);
+                        const savedText = document.querySelector(`#goal-${goalId} p`);
+
+                        if(progressBar) progressBar.style.width = data.goal_progress + "%";
+                        if(progressBar) progressBar.innerText = data.goal_progress + "%";
+                        if(savedText) savedText.innerText = `Saved: $${data.goal_saved} / ${savedText.innerText.split("/")[1].trim()}`;
+
+                        // Trigger animation if goal achieved
+                        if(data.goal_progress >= 100){
+                            triggerGoalAnimation(goalId);
+                        }
+                    }
+
+                } else {
+                    showMessage(msgEl, "❌ " + data.error, "error");
+                }
+            })
+            .catch(err => {
+                showMessage(msgEl, "⚠️ Something went wrong!", "warning");
+                console.error(err);
+            });
+        });
+    });
+}
+
+// Initialize AJAX for dashboard
+handleTransactionForm("#transactionForm", "transactionMessage");
+
+// Initialize AJAX for goals
+handleTransactionForm(".goal-contribution-form", "goal-msg-{id}");
+
+// Trigger stars animation for already completed goals
+document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll(".goal-card.completed").forEach(card => {
+        let container = card.querySelector(".stars-container");
+        if(!container){
+            container = document.createElement("div");
+            container.classList.add("stars-container");
+            card.appendChild(container);
+        }
+        for(let i=0; i<12; i++){
+            const star = document.createElement("div");
+            star.classList.add("star");
+            star.style.left = Math.random() * 80 + "%";
+            star.style.top = Math.random() * 60 + "%";
+            star.style.animationDelay = (Math.random()*2) + "s";
+            container.appendChild(star);
+        }
+    });
+});
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+
+

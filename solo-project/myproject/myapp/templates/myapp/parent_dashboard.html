@@ -1,0 +1,426 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Parent Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <!-- jQuery (required by our AJAX code) -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background: linear-gradient(135deg, #aee1f9, #ffd6e0);
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Navbar */
+    .navbar {
+      background-color: #fdc1cc;
+      border-radius: 15px;
+      margin: 10px;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .navbar-brand {
+      font-size: 1.5rem;
+      color: #fff;
+      display: flex;
+      align-items: center;
+    }
+    .profile-pic {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      margin-right: 10px;
+      border: 2px solid #fff;
+    }
+    .btn-cute {
+      background-color: #FFB6C1;
+      color: #fff;
+      border-radius: 25px;
+      font-weight: bold;
+      border: none;
+      padding: 8px 16px;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      margin: 2px;
+    }
+    .btn-cute:hover {
+      background-color: #FF69B4;
+      color: #fff;
+      transform: translateY(-2px);
+    }
+
+    h1 {
+      color: #FF69B4;
+      text-align: center;
+      margin: 30px 0;
+      text-shadow: 1px 1px 2px #fff;
+    }
+
+    h2 {
+      color: #6a5acd;
+      text-align: center;
+      margin: 20px 0;
+      text-shadow: 1px 1px 1px #fff;
+    }
+
+    /* Cute messages */
+    .error-msg {
+      background-color: #FFB6C1;
+      color: #fff;
+      border-radius: 15px;
+      padding: 10px 15px;
+      margin-bottom: 10px;
+      text-align: center;
+      font-weight: bold;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .success-msg {
+      background-color: #90EE90;
+      color: #333;
+      border-radius: 15px;
+      padding: 10px 15px;
+      margin-bottom: 10px;
+      text-align: center;
+      font-weight: bold;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    /* Kid Cards */
+    .kid-card {
+      background: #fff3f8;
+      border-radius: 20px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      padding: 20px;
+      margin-bottom: 25px;
+      text-align: center;
+      transition: transform 0.2s;
+    }
+    .kid-card:hover {
+      transform: scale(1.02);
+    }
+    .kid-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: #ffd6e0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+      margin: 0 auto 10px auto;
+    }
+    .kid-name {
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: #6a5acd;
+      margin-bottom: 5px;
+    }
+
+    /* Form Card */
+    .form-card {
+      background: #fff3f8;
+      border-radius: 20px;
+      padding: 25px;
+      margin: 40px auto;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+    .form-title {
+      text-align: center;
+      font-weight: bold;
+      color: #6a5acd;
+      margin-bottom: 20px;
+    }
+    input, select {
+      border-radius: 12px;
+      padding: 8px 12px;
+      border: 1px solid #ccc;
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar shadow-sm">
+    <span class="navbar-brand">
+      <img src="https://img.icons8.com/doodle/512/bubbles-powerpuff-girls.png" alt="profile" class="profile-pic">
+      Hello, {{user_name }}!
+    </span>
+    <div>
+      <a href="{% url 'parent_tips' %}" class="btn-cute"><i class="fa fa-lightbulb"></i> Tips</a>
+      <a href="{% url 'logout' %}" class="btn-cute"><i class="fa fa-sign-out-alt"></i> Logout</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h1>Parent Dashboard</h1>
+
+    {% if kids %}
+      <h2>Your Kids’ Accounts</h2>
+    {% endif %}
+
+    <!-- Display cute validation / success messages -->
+    {% if messages %}
+      {% for message in messages %}
+        <div class="{% if message.tags == 'success' %}success-msg{% else %}error-msg{% endif %}">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    <!-- Kids List -->
+    <div class="row" id="kids-container">
+      {% for kid in kids %}
+      <div class="col-md-4" data-kid-id="{{ kid.id }}">
+        <div class="kid-card">
+          <div class="kid-avatar">👦</div>
+          <p class="kid-name">{{ kid.user_name }}</p>
+          <p class="text-muted">{{ kid.email }}</p>
+          <p><strong>Balance:</strong> ${{ kid.get_balance }}</p>
+          <!-- give allowance paragraph a class so JS can update reliably -->
+          <p class="allowance-text"><strong>Allowance:</strong> ${{ kid.remaining_allowance }}</p>
+
+          <div class="d-flex flex-wrap justify-content-center mb-2">
+            <a href="{% url 'parent_kid_goals' kid.id %}" class="btn-cute"><i class="fa fa-bullseye"></i> Goals</a>
+            <a href="{% url 'parent_kid_transactions' kid.id %}" class="btn-cute"><i class="fa fa-list"></i> Transactions</a>
+            <a href="{% url 'parent_kid_rewards' kid.id %}" class="btn-cute"><i class="fa fa-gift"></i> Rewards</a>
+
+            <!-- make remove form AJAX-capable by adding a class -->
+            <form method="POST" action="{% url 'remove_kid' kid.id %}" class="remove-kid-form">
+              {% csrf_token %}
+              <button type="submit" class="btn-cute"><i class="fa fa-trash"></i> Remove</button>
+            </form>
+          </div>
+
+          <!-- Set Allowance Form (AJAX) -->
+          <form method="POST" action="{% url 'set_allowance' kid.id %}" class="allowance-form">
+            {% csrf_token %}
+            <input type="number" step="0.01" name="allowance" placeholder="Set Allowance" value="{{ kid.remaining_allowance }}" required>
+            <button type="submit" class="btn-cute"><i class="fa fa-coins"></i> Update</button>
+          </form>
+        </div>
+      </div>
+      {% empty %}
+      <p class="text-center text-muted">No kids added yet. Add one below ⬇️</p>
+      {% endfor %}
+    </div>
+
+    <!-- Add Kid Form (AJAX) -->
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="form-card">
+          <h3 class="form-title">➕ Add a Kid</h3>
+          <!-- changed to id so it's not confused with allowance-form -->
+          <form method="POST" action="{% url 'add_kid' %}" id="add-kid-form">
+            {% csrf_token %}
+            <input type="hidden" name="form_type" value="add_kid">
+
+            <div class="mb-3">
+              <label class="form-label">Kid Username</label>
+              <input type="text" name="user_name" class="form-control" placeholder="Enter kid's username" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Kid Email</label>
+              <input type="email" name="email" class="form-control" placeholder="Enter kid's email" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Password</label>
+              <input type="password" name="password" class="form-control" placeholder="Set kid's password" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Confirm Password</label>
+              <input type="password" name="confirm_password" class="form-control" placeholder="Confirm kid's password" required>
+            </div>
+            <button type="submit" class="btn-cute w-100">Add Kid</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+$(document).ready(function(){
+
+  // helper to get CSRF token from the page (first found one)
+  function getCsrfToken() {
+    return $('input[name="csrfmiddlewaretoken"]').first().val() || '';
+  }
+
+  // -------------------------
+  // Update Allowance (AJAX)
+  // -------------------------
+  $(document).on("submit", "form.allowance-form", function(e){
+    e.preventDefault();
+    let form = $(this);
+    let url = form.attr("action");
+    let data = form.serialize();
+
+    $.ajax({
+      url: url,
+      method: "POST",
+      data: data,
+      headers: {"X-Requested-With": "XMLHttpRequest"},
+      success: function(response){
+        // expected response: {"status":"success","message":"...","new_allowance": <value> } or similar
+        form.closest(".kid-card").find(".success-msg, .error-msg").remove();
+
+        if(response.status === "success"){
+          // show success and update allowance text
+          form.closest(".kid-card").prepend(`<div class="success-msg">${response.message}</div>`);
+
+          // If backend returned new_allowance, use it; else, check response.kid.allowance
+          let newAllowance = response.new_allowance !== undefined ? response.new_allowance :
+                             (response.kid && response.kid.allowance !== undefined ? response.kid.allowance : null);
+
+          if(newAllowance !== null){
+            form.closest(".kid-card").find(".allowance-text").html(`<strong>Allowance:</strong> $${newAllowance}`);
+            // also update the input's value
+            form.find('input[name="allowance"]').val(newAllowance);
+          }
+        } else {
+          let msg = response.message || "Failed to update allowance.";
+          form.closest(".kid-card").prepend(`<div class="error-msg">${msg}</div>`);
+        }
+      },
+      error: function(xhr){
+        // try to show validation errors if provided
+        let msg = "Something went wrong. Please try again.";
+        if(xhr && xhr.responseJSON && xhr.responseJSON.errors){
+          msg = Object.values(xhr.responseJSON.errors).join("<br>");
+        }
+        alert(msg);
+      }
+    });
+  });
+
+  // -------------------------
+  // Add Kid (AJAX)
+  // -------------------------
+  $("#add-kid-form").submit(function(e){
+    e.preventDefault();
+    let form = $(this);
+    let url = form.attr("action");
+    let data = form.serialize();
+
+    $.ajax({
+      url: url,
+      method: "POST",
+      data: data,
+      headers: {"X-Requested-With": "XMLHttpRequest"},
+      success: function(response){
+        // expected response (your view returns):
+        // { "status":"success", "message":"...", "kid": {"id":..,"user_name":..,"email":..,"allowance":..,"balance":.. } }
+        $(".success-msg, .error-msg").remove();
+
+        if(response.status === "success"){
+          form.before(`<div class="success-msg">${response.message}</div>`);
+
+          let kid = response.kid;
+          let csrf = getCsrfToken();
+
+          // Build the new kid card markup (use the same classes so existing JS works)
+          let newCard = `
+            <div class="col-md-4" data-kid-id="${kid.id}">
+              <div class="kid-card">
+                <div class="kid-avatar">👦</div>
+                <p class="kid-name">${kid.user_name}</p>
+                <p class="text-muted">${kid.email}</p>
+                <p><strong>Balance:</strong> $${kid.balance}</p>
+                <p class="allowance-text"><strong>Allowance:</strong> $${kid.allowance}</p>
+
+                <div class="d-flex flex-wrap justify-content-center mb-2">
+                  <a href="/parent/kid/${kid.id}/goals/" class="btn-cute"><i class="fa fa-bullseye"></i> Goals</a>
+                  <a href="/parent/kid/${kid.id}/transactions/" class="btn-cute"><i class="fa fa-list"></i> Transactions</a>
+                  <a href="/parent/kid/${kid.id}/rewards/" class="btn-cute"><i class="fa fa-gift"></i> Rewards</a>
+
+                  <form method="POST" action="/parent/kid/${kid.id}/remove/" class="remove-kid-form" style="display:inline-block;">
+                    <input type="hidden" name="csrfmiddlewaretoken" value="${csrf}">
+                    <button type="submit" class="btn-cute"><i class="fa fa-trash"></i> Remove</button>
+                  </form>
+                </div>
+
+                <form method="POST" action="/parent/kid/${kid.id}/set_allowance/" class="allowance-form">
+                  <input type="hidden" name="csrfmiddlewaretoken" value="${csrf}">
+                  <input type="number" step="0.01" name="allowance" placeholder="Set Allowance" value="${kid.allowance}" required>
+                  <button type="submit" class="btn-cute"><i class="fa fa-coins"></i> Update</button>
+                </form>
+              </div>
+            </div>
+          `;
+
+          // Append to the kids container
+          $("#kids-container").append(newCard);
+          // reset form
+          form[0].reset();
+        } else {
+          // show errors; your view returns {"status":"error","errors": {...}} in validation case
+          let msg = response.message || (response.errors ? Object.values(response.errors).join("<br>") : "Failed to add kid.");
+          form.before(`<div class="error-msg">${msg}</div>`);
+        }
+      },
+      error: function(xhr){
+        let msg = "Something went wrong. Please try again.";
+        if(xhr && xhr.responseJSON && xhr.responseJSON.errors){
+          msg = Object.values(xhr.responseJSON.errors).join("<br>");
+        }
+        form.before(`<div class="error-msg">${msg}</div>`);
+      }
+    });
+  });
+
+  // -------------------------
+  // Remove Kid (AJAX)
+  // -------------------------
+  // handle both existing and newly appended remove forms
+  $(document).on("submit", "form.remove-kid-form", function(e){
+    e.preventDefault();
+    let form = $(this);
+    let url = form.attr("action");
+    let data = form.serialize();
+
+    $.ajax({
+      url: url,
+      method: "POST",
+      data: data,
+      headers: {"X-Requested-With": "XMLHttpRequest"},
+      success: function(response){
+        if(response.status === "success"){
+          // remove the card column
+          form.closest(".col-md-4").remove();
+        } else {
+          alert(response.message || "Failed to remove kid.");
+        }
+      },
+      error: function(xhr){
+        let msg = "Something went wrong. Please try again.";
+        if(xhr && xhr.responseJSON && xhr.responseJSON.message){
+          msg = xhr.responseJSON.message;
+        }
+        alert(msg);
+      }
+    });
+  });
+
+});
+</script>
+</body>
+</html>
+
+
+
+
+
+

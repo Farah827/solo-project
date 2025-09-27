@@ -1,0 +1,112 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Parent Tips</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background: linear-gradient(135deg, #aee1f9, #ffd6e0);
+      margin: 0;
+      padding: 0;
+    }
+    .navbar {
+      background-color: #fdc1cc;
+      border-radius: 15px;
+      margin: 10px;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .navbar-brand {
+      font-size: 1.5rem;
+      color: #fff;
+      display: flex;
+      align-items: center;
+    }
+    .profile-pic {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      margin-right: 10px;
+      border: 2px solid #fff;
+    }
+    .btn-cute {
+      background-color: #FFB6C1;
+      color: #fff;
+      border-radius: 25px;
+      font-weight: bold;
+      border: none;
+      padding: 8px 16px;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+    .btn-cute:hover {
+      background-color: #FF69B4;
+      color: #fff;
+      transform: translateY(-2px);
+    }
+    .tips-card {
+      background: #fff3f8;
+      border-radius: 25px;
+      padding: 25px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      margin: 50px auto;
+      max-width: 800px;
+    }
+    .tips-card h2 {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+      color: #FF69B4;
+      text-align: center;
+    }
+    .tips-list {
+      list-style: none;
+      padding: 0;
+    }
+    .tips-list li {
+      background: #ffd6e0;
+      border-radius: 15px;
+      padding: 12px 18px;
+      margin-bottom: 12px;
+      font-size: 1.1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar shadow-sm">
+    <span class="navbar-brand">
+      <img src="https://img.icons8.com/doodle/512/bubbles-powerpuff-girls.png" alt="profile" class="profile-pic">
+      Parent Tips
+    </span>
+    <div>
+      <a href="{% url 'parent_dashboard' %}" class="btn-cute"><i class="fa fa-home"></i> Dashboard</a>
+      <a href="{% url 'logout' %}" class="btn-cute"><i class="fa fa-sign-out-alt"></i> Logout</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <!-- Tips Section -->
+    <div class="tips-card">
+      <h2>💡 Helpful Tips for Parents</h2>
+      <ul class="tips-list">
+        <li>🌸 Add your kids and manage their accounts easily.</li>
+        <li>💰 Set weekly or monthly allowances to teach saving habits.</li>
+        <li>🎯 Track goals and encourage kids when they achieve them.</li>
+        <li>🎉 Celebrate milestones together with cute rewards!</li>
+        <li>📚 Teach your child the value of budgeting and saving early.</li>
+        <li>🛍️ Encourage needs vs wants discussions when they request purchases.</li>
+      </ul>
+    </div>
+  </div>
+
+</body>
+</html>
