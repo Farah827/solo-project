@@ -66,9 +66,4 @@ KiddyBank is inspired by the **Powerpuff Girls**, making financial learning **fu
 
 
 
-6.Run migrations
-  ```bash
-      python manage.py makemigrations
-      python manage.py migrate
-
 
