@@ -19,7 +19,7 @@ body {
   justify-content: flex-start;
 }
 
-/* Static bubbles background */
+
 body::before {
   content: "";
   position: fixed;
@@ -31,7 +31,7 @@ body::before {
   z-index: -1;
 }
 
-/* Navbar */
+
 .navbar {
   background-color: #fdc1cc;
   border-radius: 15px;
@@ -56,7 +56,7 @@ body::before {
   border: 2px solid #fff;
 }
 
-/* Login Card */
+
 .login-card {
   background: #fff3f8;
   border-radius: 25px;
@@ -82,7 +82,7 @@ body::before {
   margin-bottom: 20px;
 }
 
-/* Inputs */
+
 .login-card input {
   border-radius: 12px;
   border: 1px solid #ccc;
@@ -93,7 +93,7 @@ body::before {
   text-align: center;
 }
 
-/* Buttons */
+
 .btn-cute {
   background-color: #FFB6C1;
   color: #fff;
@@ -119,14 +119,14 @@ body::before {
   text-decoration: underline;
 }
 
-/* Footer */
+
 .footer {
   font-size: 0.8rem;
   color: #888;
   margin-top: 15px;
 }
 
-/* Cute error message */
+
 .error-msg {
   background-color: #ffccd5; 
   color: #b3003b; 
@@ -145,7 +145,7 @@ body::before {
 </head>
 <body>
 
-  <!-- Navbar -->
+ 
   <nav class="navbar shadow-sm">
     <span class="navbar-brand d-flex align-items-center">
       <img src="https://img.icons8.com/doodle/512/bubbles-powerpuff-girls.png" 
@@ -159,18 +159,18 @@ body::before {
     </div>
   </nav>
 
-  <!-- Login Card -->
+
   <div class="login-card">
     <img src="https://img.icons8.com/doodle/512/bubbles-powerpuff-girls.png" alt="Avatar">
     <h3>Welcome Back!</h3>
     <p class="small">Parents use your email, kids use your username 💖</p>
 
-    <!-- Cute error messages -->
+  
     {% if messages %}
       <div>
         {% for message in messages %}
           <div class="error-msg">
-            ❌ {{ message }}
+             {{ message }}
           </div>
         {% endfor %}
       </div>
