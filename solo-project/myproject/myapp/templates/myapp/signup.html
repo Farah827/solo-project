@@ -19,7 +19,7 @@ body {
   justify-content: flex-start;
 }
 
-/* Static bubbles background */
+
 body::before {
   content: "";
   position: fixed;
@@ -31,7 +31,7 @@ body::before {
   z-index: -1;
 }
 
-/* Navbar */
+
 .navbar {
   background-color: #fdc1cc;
   border-radius: 15px;
@@ -56,7 +56,6 @@ body::before {
   border: 2px solid #fff;
 }
 
-/* Signup Card */
 .signup-card {
   background: #fff3f8;
   border-radius: 25px;
@@ -82,7 +81,7 @@ body::before {
   margin-bottom: 20px;
 }
 
-/* Inputs */
+
 .signup-card input {
   border-radius: 12px;
   border: 1px solid #ccc;
@@ -93,7 +92,7 @@ body::before {
   text-align: center;
 }
 
-/* Buttons */
+
 .btn-cute {
   background-color: #FFB6C1;
   color: #fff;
@@ -108,7 +107,7 @@ body::before {
   background-color: #FF69B4;
 }
 
-/* Cute error message */
+
 .error-msg {
   background-color: #ffccd5; 
   color: #b3003b; 
@@ -124,7 +123,7 @@ body::before {
   gap: 5px;
 }
 
-/* Footer */
+
 .footer {
   font-size: 0.8rem;
   color: #888;
@@ -134,7 +133,7 @@ body::before {
 </head>
 <body>
 
-  <!-- Navbar -->
+
   <nav class="navbar shadow-sm">
     <span class="navbar-brand d-flex align-items-center">
       <img src="https://img.icons8.com/doodle/512/bubbles-powerpuff-girls.png" 
@@ -148,18 +147,18 @@ body::before {
     </div>
   </nav>
 
-  <!-- Signup Card -->
+
   <div class="signup-card">
     <img src="https://img.icons8.com/doodle/512/bubbles-powerpuff-girls.png" alt="Avatar">
     <h3>Join the Fun!</h3>
     <p class="small">Create an account to start saving & playing 💖</p>
 
-    <!-- Cute error messages -->
+
     {% if messages %}
       <div>
         {% for message in messages %}
           <div class="error-msg">
-            ❌ {{ message }}
+             {{ message }}
           </div>
         {% endfor %}
       </div>
@@ -175,7 +174,7 @@ body::before {
     </form>
 
     <div class="footer">
-      © 2025 Kiddo Bank. All Rights Reserved.
+      © 2025 Kiddy Bank. All Rights Reserved.
     </div>
   </div>
 
