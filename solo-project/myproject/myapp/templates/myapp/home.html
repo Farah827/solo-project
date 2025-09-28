@@ -13,10 +13,10 @@ body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
-  scroll-behavior: smooth; /* smooth scroll for navbar links */
+  scroll-behavior: smooth; 
 }
 
-/* Static bubbles background */
+
 body::before {
   content: "";
   position: fixed;
@@ -28,7 +28,7 @@ body::before {
   z-index: -1;
 }
 
-/* Navbar */
+
 .navbar {
   background-color: #fdc1cc;
   border-radius: 15px;
@@ -95,7 +95,7 @@ body::before {
   transform: translateY(-2px);
 }
 
-/* Features */
+
 .feature-card {
   background: #fff3f8;
   border-radius: 20px;
@@ -116,7 +116,7 @@ body::before {
   margin-bottom: 10px;
 }
 
-/* About Us */
+
 .about-section {
   background: #fff3f8;
   border-radius: 20px;
@@ -167,7 +167,7 @@ footer {
 </head>
 <body>
 
-  <!-- Navbar -->
+
   <nav class="navbar navbar-expand-lg shadow-sm">
     <a class="navbar-brand" href="#">
       <img src="https://img.icons8.com/doodle/512/bubbles-powerpuff-girls.png" alt="logo" class="profile-pic">
@@ -186,7 +186,7 @@ footer {
     </div>
   </nav>
 
-  <!-- Hero Section -->
+
   <section class="hero">
     <img src="https://img.icons8.com/doodle/512/bubbles-powerpuff-girls.png" alt="Hero Avatar">
     <h1>Welcome to Kiddy Bank</h1>
@@ -197,7 +197,7 @@ footer {
     <a href="{% url 'register' %}" class="btn-cute"><i class="fa fa-rocket"></i> Get Started</a>
   </section>
 
-  <!-- Features Section -->
+  
   <section id="features" class="container my-5">
     <div class="row g-4">
       <div class="col-md-4">
@@ -224,7 +224,7 @@ footer {
     </div>
   </section>
 
-  <!-- About Us Section -->
+ 
   <section id="about-us" class="container about-section">
     <h2>About Us</h2>
     <p>
@@ -257,7 +257,7 @@ footer {
     </div>
   </section>
 
-  <!-- Footer -->
+ 
   <footer>
     <p>&copy; 2025 Kiddy Bank. All Rights Reserved.</p>
   </footer>
