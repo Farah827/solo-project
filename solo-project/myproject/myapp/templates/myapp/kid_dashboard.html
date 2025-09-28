@@ -198,7 +198,7 @@ function handleTransactionForm(formSelector, messageSelector) {
             e.preventDefault();
             const formData = new FormData(this);
 
-            const goalId = this.dataset.goalId; // optional for goals
+            const goalId = this.dataset.goalId; 
             const msgEl = goalId ? document.getElementById(messageSelector.replace("{id}", goalId)) : document.getElementById(messageSelector);
 
             fetch("{% url 'make_transaction' %}", {
@@ -211,7 +211,7 @@ function handleTransactionForm(formSelector, messageSelector) {
                 if(data.success){
                     updateBalance(data.new_balance, data.remaining_allowance);
 
-                    showMessage(msgEl, "✅ " + data.message, "success");
+                    showMessage(msgEl, "" + data.message, "success");
 
                     if(data.goal_progress !== undefined && data.goal_saved !== undefined && goalId){
                         const progressBar = document.querySelector(`#goal-${goalId} .progress-bar`);
@@ -227,11 +227,11 @@ function handleTransactionForm(formSelector, messageSelector) {
                     }
 
                 } else {
-                    showMessage(msgEl, "❌ " + data.error, "error");
+                    showMessage(msgEl, "❌" + data.error, "error");
                 }
             })
             .catch(err => {
-                showMessage(msgEl, "⚠️ Something went wrong!", "warning");
+                showMessage(msgEl, "Something went wrong!", "warning");
                 console.error(err);
             });
         });
