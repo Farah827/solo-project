@@ -16,7 +16,7 @@ body {
     overflow-x: hidden;
 }
 
-/* Navbar */
+
 .navbar {
     background-color: #fdc1cc;
     border-radius: 15px;
@@ -40,7 +40,7 @@ body {
     margin-right: 8px;
 }
 
-/* Cute Buttons (general) */
+
 .btn-cute {
     background: #FFB6C1;
     border-radius: 25px;
@@ -57,20 +57,90 @@ body {
     color: #fff;
 }
 
-/* Goals */
-.container { max-width:900px; padding-bottom:50px; }
-h2 { color:#FF69B4; text-align:center; margin-top:20px; }
-.goals-grid { display:flex; flex-wrap:wrap; justify-content:center; gap:15px; margin-top:20px; }
-.goal-card { background:#fff3f8; border-radius:25px; padding:15px; width:220px; box-shadow:0 6px 15px rgba(0,0,0,0.1); position:relative; }
-.goal-card.completed { border:2px solid #FFB6C1; box-shadow:0 0 20px rgba(255,182,193,0.5), 0 0 40px rgba(255,182,193,0.3); }
-.goal-card.add-new { background:#ffd6e0; border:2px dashed #FFB6C1; text-align:center; }
-.goal-title { display:block; text-align:center; font-size:1rem; font-weight:bold; margin-bottom:5px; }
-.goal-completed-msg { color:#FF69B4; font-weight:bold; text-align:center; font-size:1.1rem; margin-bottom:5px; text-shadow:0 0 5px #FFB6C1, 0 0 10px #FF99CC; }
-input, select { border-radius:12px; padding:6px 10px; border:1px solid #ccc; margin-bottom:6px; width:100%; text-align:center; }
-form { display:flex; flex-direction:column; gap:6px; margin-top:8px; }
-.progress { height:18px; border-radius:12px; background-color:#f1f1f1; margin-top:6px; }
-.progress-bar { background-color:#FF69B4; color:white; font-weight:bold; text-align:center; font-size:0.9rem; }
-.star { position:absolute; width:12px; height:12px; background:#FFB6C1; clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%); opacity:0; pointer-events:none; animation:sparkle 1s infinite; }
+
+.container { 
+    max-width:900px; 
+    padding-bottom:50px; 
+}
+h2 { 
+    color:#FF69B4; 
+    text-align:center; 
+    margin-top:20px; 
+}
+.goals-grid {
+    display:flex; 
+    flex-wrap:wrap; 
+    justify-content:center; 
+    gap:15px; 
+    margin-top:20px; 
+}
+.goal-card { 
+    background:#fff3f8; 
+    border-radius:25px; 
+    padding:15px; 
+    width:220px; 
+    box-shadow:0 6px 15px rgba(0,0,0,0.1); 
+    position:relative;
+}
+.goal-card.completed { 
+    border:2px solid #FFB6C1; 
+    box-shadow:0 0 20px rgba(255,182,193,0.5), 0 0 40px rgba(255,182,193,0.3); 
+}
+.goal-card.add-new { 
+    background:#ffd6e0; 
+    border:2px dashed #FFB6C1; 
+    text-align:center; 
+}
+.goal-title { 
+    display:block; 
+    text-align:center; 
+    font-size:1rem; 
+    font-weight:bold;
+    margin-bottom:5px; 
+}
+.goal-completed-msg { 
+    color:#FF69B4; 
+    font-weight:bold; 
+    text-align:center; 
+    font-size:1.1rem; 
+    margin-bottom:5px; 
+    text-shadow:0 0 5px #FFB6C1, 0 0 10px #FF99CC; 
+}
+input, select { 
+    border-radius:12px; 
+    padding:6px 10px; 
+    border:1px solid #ccc; 
+    margin-bottom:6px; 
+    width:100%; 
+    text-align:center; 
+}
+form { 
+    display:flex; 
+    flex-direction:column; 
+    gap:6px; 
+    margin-top:8px; 
+}
+.progress { 
+    height:18px; 
+    border-radius:12px; 
+    background-color:#f1f1f1; 
+    margin-top:6px; 
+}
+.progress-bar { 
+    background-color:#FF69B4; 
+    color:white; 
+    font-weight:bold; 
+    text-align:center; 
+    font-size:0.9rem; 
+}
+.star { 
+    position:absolute; 
+    width:12px; height:12px; 
+    background:#FFB6C1; 
+    clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%); 
+    opacity:0; 
+    pointer-events:none; 
+    animation:sparkle 1s infinite; }
 @keyframes sparkle { 0%,100%{opacity:0; transform:scale(0.3) rotate(0deg);} 50%{opacity:1; transform:scale(1) rotate(360deg);} }
 
 .text-success { color:green; }
@@ -80,7 +150,7 @@ form { display:flex; flex-direction:column; gap:6px; margin-top:8px; }
 </head>
 <body>
 
-<!-- Navbar -->
+
 <nav class="navbar shadow-sm">
   <span class="navbar-brand d-flex align-items-center">
     <img src="https://img.icons8.com/doodle/512/bubbles-powerpuff-girls.png" alt="profile" class="profile-pic">
@@ -97,7 +167,7 @@ form { display:flex; flex-direction:column; gap:6px; margin-top:8px; }
   <p id="balance" style="text-align:center; font-weight:bold;">Balance: ${{ user.balance }}</p>
 
   <div class="goals-grid">
-    <!-- Add New Goal Card -->
+
     <div class="goal-card add-new">
       <h3>Create New Goal</h3>
       <form action="{% url 'add_goal' %}" method="POST">
@@ -108,7 +178,7 @@ form { display:flex; flex-direction:column; gap:6px; margin-top:8px; }
       </form>
     </div>
 
-    <!-- Loop through goals -->
+   
     {% for goal in goals %}
       <div class="goal-card {% if goal.saved_amount >= goal.target_amount %}completed{% endif %}" id="goal-{{ goal.id }}">
         <span class="goal-title">{{ goal.name }}</span>
@@ -176,15 +246,15 @@ document.querySelectorAll(".goal-contribution-form").forEach(form => {
         .then(data => {
             if(data.success){
                 updateBalance(data.new_balance);
-                msgEl.innerText = "✅ " + data.message; msgEl.className = "text-success";
+                msgEl.innerText = "" + data.message; msgEl.className = "text-success";
                 const progressBar = document.querySelector(`#goal-${goalId} .progress-bar`);
                 const savedText = document.querySelector(`#goal-${goalId} p`);
                 if(progressBar){ progressBar.style.width = data.goal_progress + "%"; progressBar.innerText = data.goal_progress + "%"; }
                 if(savedText){ savedText.innerText = `Saved: $${data.goal_saved} / ${savedText.innerText.split("/")[1].trim()}`; }
                 if(data.goal_progress >= 100){ triggerGoalAnimation(goalId); }
-            } else { msgEl.innerText = "❌ " + data.error; msgEl.className = "text-danger"; }
+            } else { msgEl.innerText = "" + data.error; msgEl.className = "text-danger"; }
         })
-        .catch(err => { msgEl.innerText = "⚠️ Something went wrong!"; msgEl.className = "text-warning"; console.error(err); });
+        .catch(err => { msgEl.innerText = "Something went wrong!"; msgEl.className = "text-warning"; console.error(err); });
     });
 });
 
