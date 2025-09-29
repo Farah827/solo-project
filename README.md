@@ -1,4 +1,4 @@
-# 🌸 KiddyBank – Saving Made Fun!  
+# KiddyBank – Saving Made Fun!  
 
 Welcome to **KiddyBank**, a colorful and friendly banking app for kids!  
 With your **Powerpuff squad** cheering you on, saving money becomes an exciting adventure. Every star earned strengthens your team! 💪✨  
@@ -14,14 +14,26 @@ With your **Powerpuff squad** cheering you on, saving money becomes an exciting 
 
 ---
 
-## Theme & Design
 
-KiddyBank is inspired by the **Powerpuff Girls**, making financial learning **fun, magical, and motivating**.  
+## 🛠️ Technology Used  
 
-- **Bright pastel colors** for a cheerful look.  
-- **Cute avatars** (like Bubbles) to represent kids and rewards.  
-- **Friendly animations** to celebrate achievements and milestones.  
-- **Kid-friendly fonts** (Comic Sans MS) to keep the interface playful and readable.  
+- **Backend:** Django (Python)  
+- **Frontend:** HTML, CSS, Bootstrap  
+- **Database:** MySQL  
+- **Version Control:** Git & GitHub
+
+---
+  
+
+## 🎨 Theme & Design  
+
+KiddyBank is designed to make financial learning **fun, playful, and motivating for kids**.  
+
+- **Bright pastel colors** create a positive and welcoming environment.  
+- **Playful avatars** encourage kids to connect with their savings journey.  
+- **Subtle animations** highlight progress and achievements in a fun way.  
+- **Simple, child-friendly typography** ensures readability without losing the playful tone.   
+
 
 ---
 
