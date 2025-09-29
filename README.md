@@ -1,7 +1,7 @@
 #  KiddyBank – Your Virtual Bank for Kids!  
 
-Welcome to **KiddyBank**, a playful yet meaningful **virtual bank** designed especially for kids.  
-By turning money management into an adventure, KiddyBank makes saving fun, rewarding, and easy to understand.  
+Welcome to **KiddyBank**, a playful yet meaningful virtual bank designed especially for kids.  
+Unlike traditional saving methods, KiddyBank turns money management into an adventure, making saving fun, rewarding, and easy to understand.  
 
 With progress tracking, rewards, and parent support, every milestone brings kids closer to building smart financial habits for the future. ✨  
 
